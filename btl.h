@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2020 W. Akira Mizutani
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/*
+
+For more information on how to use this library, please visit: https://github.com/aki-cat/btl
+
+*/
+
 #ifndef BELTINOS_TEST_LIBRARY_H_
 #define BELTINOS_TEST_LIBRARY_H_
 
@@ -149,23 +176,6 @@ class TestRunner {
             BTL_PRINT_TEST_FAILURE(stream.str());                                             \
         };                                                                                    \
     }
-
-/*
-
-=== Usage Example ===
-
-#include <btl.h>
-
-DESCRIBE_CLASS(YourType) {
-    DESCRIBE_TEST(method_name, DescribedSituationInPresentPerfectTense,
-                               DescribeExpectationInImperativeTense) {
-        YourType foo;
-        foo.method_name();
-        ASSERT_ARE_EQUAL(foo.some_state(), YourType::EXPECTED_STATE);
-    };
-}
-
-*/
 
 #define DESCRIBE_CLASS(CLASS_TYPE)                                     \
     template <>                                                        \
