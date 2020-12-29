@@ -91,3 +91,7 @@ int main() {
     return 0;
 }
 ```
+
+### Real example
+
+If you want to see a real example of some project that uses this, check out [Slippy's Math Library](https://github.com/aki-cat/sml).
