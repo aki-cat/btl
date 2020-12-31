@@ -33,6 +33,7 @@ For more information on how to use this library, please visit: https://github.co
 #include <cstdint>
 #include <functional>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -40,8 +41,12 @@ namespace std {
 
 // Some std::to_string() extensions
 
-const string& to_string(const string& s) { return s; }
-string to_string(const bool& value) { return value ? "true" : "false"; }
+const string& to_string(const string& s) {
+    return s;
+}
+string to_string(const bool& value) {
+    return value ? "true" : "false";
+}
 
 // I recommend implementing std::to_string for your types.
 
@@ -54,34 +59,34 @@ namespace btl {
 // Espilons are different (and more lenient) than the default ones because for most mathematical
 // uses, float is naturally innaccurate, and there's nothing we can do about it.
 // If you don't like that, feel free to use different epsilon values by altering these.
-#define BTL_FLOAT_EPSILON 1e-5f;
+#define BTL_FLOAT_EPSILON  1e-5f;
 #define BTL_DOUBLE_EPSILON 1e-7;
 
 // OUTPUT COLOR CODES
 
-#define BTL_LOCATION_TEXT_COLOUR "\033[94;1m"
-#define BTL_FAILURE_TEXT_COLOUR "\033[91m"
-#define BTL_NORMAL_TEXT_COLOUR "\033[0m"
+#define BTL_LOCATION_TEXT_COLOUR    "\033[94;1m"
+#define BTL_FAILURE_TEXT_COLOUR     "\033[91m"
+#define BTL_NORMAL_TEXT_COLOUR      "\033[0m"
 #define BTL_NORMAL_TEXT_COLOUR_BOLD "\033[0;1m"
-#define BTL_SUCCESS_TEXT_COLOUR "\033[92;1m"
-#define BTL_CLASS_TEXT_COLOUR "\033[95;1m"
+#define BTL_SUCCESS_TEXT_COLOUR     "\033[92;1m"
+#define BTL_CLASS_TEXT_COLOUR       "\033[95;1m"
 
 // UTILITY
 
-#define BTL_SYMBOL_STRING(SYMBOL) #SYMBOL
+#define BTL_SYMBOL_STRING(SYMBOL)   #SYMBOL
 #define BTL_GET_SYMBOL_NAME(SYMBOL) BTL_SYMBOL_STRING(SYMBOL)
 #define BTL_GET_LOCATION_MESSAGE \
     BTL_LOCATION_TEXT_COLOUR __FILE__ "(" BTL_GET_SYMBOL_NAME(__LINE__) ")" \
                                                                         ":" BTL_NORMAL_TEXT_COLOUR
-#define BTL_ASSERTION_FAIL_MESSAGE                   \
-    BTL_GET_LOCATION_MESSAGE BTL_FAILURE_TEXT_COLOUR \
-        " Assertion failed! "                        \
-        "❌ " BTL_NORMAL_TEXT_COLOUR
+#define BTL_ASSERTION_FAIL_MESSAGE                          \
+    "\n\t" BTL_GET_LOCATION_MESSAGE BTL_FAILURE_TEXT_COLOUR \
+    " Assertion failed! "                                   \
+    "❌ " BTL_NORMAL_TEXT_COLOUR
 
 #define BTL_PRINT_TEST_SUCCESS() \
     std::cout << BTL_SUCCESS_TEXT_COLOUR "OK!" BTL_NORMAL_TEXT_COLOUR << std::endl
 #define BTL_PRINT_TEST_FAILURE(ERROR_MSG) \
-    std::cerr << BTL_ASSERTION_FAIL_MESSAGE << ERROR_MSG << std::endl
+    std::cerr << BTL_ASSERTION_FAIL_MESSAGE << ERROR_MSG << std::endl << std::endl
 #define BTL_PRINT_TEST_DESCRIPTION()                                                   \
     std::cout << "\t" << BTL_CLASS_TEXT_COLOUR << btl::TestRunner<class_t>::CLASS_NAME \
               << BTL_NORMAL_TEXT_COLOUR << "::" << CURRENT_TEST << " "
@@ -100,7 +105,9 @@ namespace btl {
 // This is public, but try to use btl::has_errors() instead.
 static size_t _BTL_ERROR_COUNT = 0;
 
-static bool has_errors() { return _BTL_ERROR_COUNT > 0; }
+static bool has_errors() {
+    return _BTL_ERROR_COUNT > 0;
+}
 
 template <typename T>
 bool are_equal(const T& a, const T& b) {
@@ -139,7 +146,7 @@ class TestRunner {
 
 #define ASSERT_ARE_EQUAL(VALUE, EXPECTED)                                                 \
     {                                                                                     \
-        std::stringstream stream{};                                                       \
+        std::stringstream stream;                                                         \
         stream << std::to_string(EXPECTED) << " expected; got " << std::to_string(VALUE); \
         BTL_ASSERT(btl::are_equal(VALUE, EXPECTED), stream.str());                        \
     }
@@ -148,12 +155,12 @@ class TestRunner {
     {                                                              \
         void* value_ptr = reinterpret_cast<void*>(&VALUE);         \
         void* expected_ptr = reinterpret_cast<void*>(&EXPECTED);   \
-        std::stringstream stream{};                                \
+        std::stringstream stream;                                  \
         stream << expected_ptr << " expected; got " << value_ptr;  \
         BTL_ASSERT(btl::are_equal(VALUE, EXPECTED), stream.str()); \
     }
 
-#define ASSERT_IS_TRUE(VALUE) ASSERT_ARE_EQUAL((VALUE), true);
+#define ASSERT_IS_TRUE(VALUE)  ASSERT_ARE_EQUAL((VALUE), true);
 #define ASSERT_IS_FALSE(VALUE) ASSERT_ARE_EQUAL((VALUE), false);
 
 #define ASSERT_ARRAYS_ARE_EQUAL(VALUE, EXPECTED, RANGE_START, RANGE_LENGTH)                   \
