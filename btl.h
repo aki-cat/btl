@@ -109,8 +109,8 @@ static bool has_errors() {
     return _BTL_ERROR_COUNT > 0;
 }
 
-template <typename T>
-bool are_equal(const T& a, const T& b) {
+template <typename T1, typename T2>
+bool are_equal(const T1& a, const T2& b) {
     return a == b;
 }
 
