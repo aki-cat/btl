@@ -193,7 +193,7 @@ class TestRunner {
 #define DESCRIBE_TEST(METHOD, SITUATION, EXPECTATION)                                \
     _tests.push_back([]() {});                                                       \
     _tests[_tests.size() - 1] = [CURRENT_TEST = BTL_NORMAL_TEXT_COLOUR_BOLD #METHOD  \
-                                 "()" BTL_NORMAL_TEXT_COLOUR " should " #EXPECTATION \
+                                 BTL_NORMAL_TEXT_COLOUR " should " #EXPECTATION \
                                  " when " #SITUATION]()
 
 // Undefine what can be undefined
